@@ -7,7 +7,7 @@ DB solution will be something like MySQL.
 See http://codehandbook.org/python-web-application-flask-mysql/ for using flask with MySQL
 ## Architecture
 
-![Architecture flowchart](/Bryggeriklubb%20API.svg)
+![Architecture flowchart](/Bryggeriklubb%20API.jpg)
 
 ## TODO:
 
