@@ -8,7 +8,6 @@ See http://codehandbook.org/python-web-application-flask-mysql/ for using flask 
 ## Architecture
 
 ![Architecture flowchart](/Bryggeriklubb%20API.svg)
-(url)
 
 ## TODO:
 
