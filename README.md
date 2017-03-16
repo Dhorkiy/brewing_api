@@ -14,7 +14,7 @@ See http://codehandbook.org/python-web-application-flask-mysql/ for using flask 
 - POST, PUT, GET, DELETE
 - Loadbalancer infront of the API and the client (for added microservice!!1one1)
 - Database (MySQL)
-	+ Id (PK) - INT
+	+ Id (Primary Key, Auto Increment) - INT
 	+ Name - TEXT
 	+ Description - TEXT
 	+ Amount - FLOAT
