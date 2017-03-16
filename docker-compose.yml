@@ -1,0 +1,20 @@
+nginx:
+  build: ./nginx
+  ports:
+    - "80:80"
+  links:
+   - client:client
+   - api:api
+   - db:db
+db:
+  build: ./db
+  environment:
+    MYSQL_ROOT_PASSWORD: testing
+    MYSQL_USER: bryggeriklubben
+    MYSQL_PASSWORD: BryggeriKlubben
+
+client:
+  build: ./client
+
+api:
+  build: ./api
