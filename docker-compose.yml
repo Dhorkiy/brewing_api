@@ -3,7 +3,6 @@ nginx:
   ports:
     - "80:80"
   links:
-   - client:client
    - api:api
    - db:db
 db:
@@ -18,3 +17,5 @@ client:
 
 api:
   build: ./api
+  ports:
+    - "5000:5000"
