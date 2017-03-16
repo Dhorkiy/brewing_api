@@ -5,8 +5,12 @@ This will be achieved by a NGINX reverse proxy delegating these requests to the 
 DB solution will be something like MySQL.
 
 See http://codehandbook.org/python-web-application-flask-mysql/ for using flask with MySQL
+## Architecture
 
-TODO:
+![Architecture flowchart](/Bryggeriklubb%20API.svg)
+(url)
+
+## TODO:
 
 - POST, PUT, GET, DELETE
 - Loadbalancer infront of the API and the client (for added microservice!!1one1)
