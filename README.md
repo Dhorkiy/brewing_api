@@ -15,7 +15,6 @@ TODO:
 	+ Name - TEXT
 	+ Description - TEXT
 	+ Amount - FLOAT
-	+ Date field (updates on PUT, auto add on POST) - DATETIME
-	+ 
+	+ Date field (updates on PUT, auto add on POST) - DATETIME 
 - Client
 
