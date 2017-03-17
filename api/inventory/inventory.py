@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
@@ -17,6 +17,26 @@ class Inventory(db.model):
     date = db.Column(db.DATE)
     type = db.Column(db.VARCHAR, nullable=False)
 
+
+@app.route('/inventory', methods=['GET'])
+def inventory():
+    if request.method == 'GET':
+        results = Inventory.query.limit(20).offset(0).all()
+
+        json_result = []
+        for result in results:
+            data = {
+                'id': result.id,
+                'name': result.name,
+                'description': result.description,
+                'alpha': result.alpha,
+                'amount': result.amount,
+                'date': result.date,
+                'type': result.type
+            }
+            json_result.append(data)
+
+        return jsonify(items=json_result)
 
 @app.route('/')
 def hello_world():
