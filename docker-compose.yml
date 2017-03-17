@@ -11,6 +11,8 @@ db:
     MYSQL_ROOT_PASSWORD: testing
     MYSQL_USER: bryggeriklubben
     MYSQL_PASSWORD: BryggeriKlubben
+  volumes:
+    - ./db:/docker-entrypoint-initdb.d
 
 client:
   build: ./client
