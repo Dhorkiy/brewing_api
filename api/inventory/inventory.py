@@ -19,7 +19,7 @@ class Inventory(db.Model):
     type = db.Column(db.VARCHAR, nullable=False)
 
 
-@app.route('/inventory', methods=['GET'])
+@app.route('/inventory/', methods=['GET'])
 def inventory():
     if request.method == 'GET':
         results = Inventory.query.limit(20).offset(0).all()
@@ -39,9 +39,10 @@ def inventory():
 
         return jsonify(items=json_result)
 
-@app.route('/inventory/<int:id>', methods=['PUT', 'GET'])
+
+@app.route('/inventory/<int:inventory_id>/', methods=['PUT', 'GET', 'DELETE'])
 def update_inventory(inventory_id):
-    if request.method == 'PUT':
+    if request.method == 'GET':
         results = Inventory.query.filter_by(id=inventory_id).first()
 
         json_result = {
@@ -54,14 +55,31 @@ def update_inventory(inventory_id):
                 'type': results.type
             }
         return jsonify(items=json_result)
-    #if request.method == 'GET':
 
-@app.route('/inventory/<int:id>', methods=['DELETE'])
-def delete_inventory_item(id):
+    if request.method == 'PUT':
+        results = Inventory.query.filter_by(id=inventory_id).first()
+
+        json_result = {
+            'id': results.id,
+            'name': results.name,
+            'description': results.description,
+            'alpha': results.alpha,
+            'amount': results.amount,
+            'date': results.date,
+            'type': results.type
+        }
+        return jsonify(items=json_result)
+
     if request.method == 'DELETE':
-        db.session.delete(Inventory.query.get(id))
+        result = Inventory.query.filter_by(id=inventory_id).first()
+        db.session.delete(result)
         db.session.commit()
-    return jsonify({'result':true})
+        return '', 204
+
+
+# @app.route('/inventory/<int:inventory_id>/', methods=['DELETE'])
+# def delete_item(inventory_id):
+
 
 @app.route('/')
 def hello_world():
