@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify
-from flask.ext.sqlalchemy import SQLAlchemy
+#from flask.ext.sqlalchemy import flask_sqlalchemy
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://bryggeriklubben:BryggeriKlubben@db/inventory'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://bryggeriklubben:BryggeriKlubben@mysql/inventory'
 
-class Inventory(db.model):
+class Inventory(db.Model):
     __tablename__ = 'ingredients'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.VARCHAR, nullable=False)
@@ -37,6 +38,30 @@ def inventory():
             json_result.append(data)
 
         return jsonify(items=json_result)
+
+@app.route('/inventory/<int:id>', methods=['PUT', 'GET'])
+def update_inventory(inventory_id):
+    if request.method == 'PUT':
+        results = Inventory.query.filter_by(id=inventory_id).first()
+
+        json_result = {
+                'id': results.id,
+                'name': results.name,
+                'description': results.description,
+                'alpha': results.alpha,
+                'amount': results.amount,
+                'date': results.date,
+                'type': results.type
+            }
+        return jsonify(items=json_result)
+    #if request.method == 'GET':
+
+@app.route('/inventory/<int:id>', methods=['DELETE'])
+def delete_inventory_item(id):
+    if request.method == 'DELETE':
+        db.session.delete(Inventory.query.get(id))
+        db.session.commit()
+    return jsonify({'result':true})
 
 @app.route('/')
 def hello_world():
