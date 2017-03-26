@@ -1,24 +1,36 @@
-nginx:
-  build: ./nginx
-  ports:
-    - "80:80"
-  links:
-   - api:api
-db:
-  build: ./db
-  environment:
-    MYSQL_ROOT_PASSWORD: testing
-    MYSQL_USER: bryggeriklubben
-    MYSQL_PASSWORD: BryggeriKlubben
-#  volumes:
-#    - ./db:/docker-entrypoint-initdb.d
+version: '2'
 
-client:
-  build: ./client
+services:
+  nginx:
+    build: ./nginx
+    networks:
+      - back
+    ports:
+      - "80:80"
+    links:
+     - api:api
+  db:
+    build: ./db
+    networks:
+      - back
+    environment:
+      MYSQL_ROOT_PASSWORD: testing
+      MYSQL_USER: bryggeriklubben
+      MYSQL_PASSWORD: BryggeriKlubben
+  #  volumes:
+  #    - ./db:/docker-entrypoint-initdb.d
 
-api:
-  build: ./api
-  ports:
-    - "5000:5000"
-  links:
-    - db:db
+  #client:
+   # build: ./client
+
+  api:
+    build: ./api
+    networks:
+      - back
+    ports:
+      - "5000:5000"
+    links:
+      - db:db
+networks:
+  back:
+
