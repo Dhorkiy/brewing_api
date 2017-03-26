@@ -80,7 +80,7 @@ def inventory():
     return '', 204
 
 
-@app.route('/inventory/<string:inventory_name>', methods=['GET'])
+@app.route('/inventory/<string:inventory_name>/', methods=['GET'])
 def get_inventory_by_name(inventory_name):
     if request.method == 'GET':
         results = Inventory.query.filter_by(name=inventory_name)
@@ -125,7 +125,7 @@ def update_inventory(inventory_id):
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return 'Welcome to Bryggeriklubbens Inventory API'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
