@@ -48,7 +48,7 @@ def inventory():
         return jsonify(items=json_result)
 
     if request.method == 'POST':
-        results = Inventory.query.limit(1).offset(0).all()
+        results = Inventory.query.limit(20).offset(0).all()
         json_result = []
         for result in results:
             data = {
@@ -62,13 +62,22 @@ def inventory():
             }
             json_result.append(data)
 
-        ## if not json_result[1] == request.form['name'] and not json_result[3] == request.form['alpha']:
-        ##   return 'Did not work'
-        ## else:
-            ingredient = Inventory(request.form['name'], request.form['description'], request.form['alpha'], request.form['amount'], request.form['date'], request.form['type'])
+        ingredient = Inventory(request.form['name'], request.form['description'], request.form['alpha'],
+                               request.form['amount'], request.form['date'], request.form['type'])
+        _alpha_from_db = Inventory.alpha
+        _alpha_from_form = ingredient.alpha
+
+        exists = db.session.query(db.exists().where(Inventory.name == ingredient.name)).scalar() \
+            and db.session.query(db.exists().where(_alpha_from_db == _alpha_from_form))
+
+        if exists:
+            return 'Name '+ingredient.name + ' with alpha of ' + ingredient.alpha \
+                   + ' already exists. Not added to database.'
+        else:
             db.session.add(ingredient)
             db.session.commit()
-        return 'Added.', 204
+            return 'Added ' + ingredient.name + ' successfully to database.'
+    return '', 204
 
 
 @app.route('/inventory/<string:inventory_name>', methods=['GET'])
@@ -90,7 +99,8 @@ def get_inventory_by_name(inventory_name):
 
         return jsonify(items=json_result)
 
-@app.route('/inventory/<int:inventory_id>/', methods=['PUT', 'GET', 'DELETE'])
+
+@app.route('/inventory/<int:inventory_id>/', methods=['GET', 'DELETE'])
 def update_inventory(inventory_id):
     if request.method == 'GET':
         results = Inventory.query.filter_by(id=inventory_id).first()
@@ -106,38 +116,11 @@ def update_inventory(inventory_id):
 
         return jsonify(items=json_result)
 
-    if request.method == 'PUT':
-        results = Inventory.query.filter_by(id=inventory_id).first()
-        json_result = {
-            'id': results.id,
-            'name': results.name,
-            'description': results.description,
-            'alpha': results.alpha,
-            'amount': results.amount,
-            'date': results.date,
-            'type': results.type
-        }
-        ingredient = Inventory(request.form['name'], request.form['description'], request.form['alpha'],
-                               request.form['amount'], request.form['date'], request.form['type'])
-
-        results.name = request.json.get('name', results.name)
-        results.description = request.json.get('description', results.description)
-        results.alpha = request.json.get('alpha', results.alpha)
-        results.amount = request.json.get('amount', results.amount)
-        results.date = request.json.get('date', results.date)
-        results.type = request.json.get('type', results.type)
-        db.session.commit()
-        return jsonify({'results': results})
-
     if request.method == 'DELETE':
         result = Inventory.query.filter_by(id=inventory_id).first()
         db.session.delete(result)
         db.session.commit()
         return '', 204
-
-
-# @app.route('/inventory/<int:inventory_id>/', methods=['DELETE'])
-# def delete_item(inventory_id):
 
 
 @app.route('/')

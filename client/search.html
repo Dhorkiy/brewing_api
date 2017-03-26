@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="handler.js"></script>
+</head>
+<body>
+<hr>
+<h3>Change Ingredients</h3>
+</hr>
+<label>Search for name: </label>
+
+<input name="search" type="text" maxlength="100" id="search"/>
+<button onclick="searchName()"> Get Ingredient </button>
+
+<form id="ingredients_form">
+    <label>ID: </label><br>
+    <input type="text" id="ingredients_id"><br>
+    <label>Name: </label><br>
+    <input id="ingredients_name"><br>
+    <label>Description: </label><br>
+    <input id="ingredients_desc"><br>
+    <label>Amount: </label><br>
+    <input id="ingredients_amount"><br>
+    <label>Alpha: </label><br>
+    <input id="ingredients_alpha"><br>
+    <label>Date: </label><br>
+    <input id="ingredients_date"><br>
+    <label>Type: </label><br>
+    <input id="ingredients_type"><br>
+</form>
+
+<hr>
+<h3>Ingredient - Flask SQLAlchemy add</h3>
+<hr/>
+
+<form action = "http://nginx/inventory/" method = "POST">
+    <label for = "name">Name</label><br>
+    <input type = "text" name = "name" placeholder = "Name" /><br>
+    <label for = "description">Description</label><br>
+    <input type = "text" name = "description" placeholder = "Description" /><br>
+    <label for = "alpha">Alpha</label><br>
+    <input type = "number" name = "alpha" placeholder = "Alpha" /><br>
+    <label for = "amount">Amount</label><br>
+    <input type = "text" name = "amount" placeholder = "Amount" /><br>
+    <label for = "date">Date</label><br>
+    <input type = "date" name = "date" /><br>
+    <label for = "date">Type</label><br>
+    <input type = "text" name = "type" placeholder = "Type" /><br>
+    <input type= "submit">
+</form>
+<hr>
+<hr>
+<form action="http://nginx/inventory/" method="GET">
+    <input type="submit" value="Show all">
+</form>
+
+</body>
+</html>
