@@ -7,8 +7,7 @@ services:
       - back
     ports:
       - "80:80"
-    links:
-     - api:api
+
   db:
     build: ./db
     networks:
@@ -23,14 +22,41 @@ services:
   #client:
    # build: ./client
 
-  api:
+  api_get:
     build: ./api
     networks:
       - back
-    ports:
-      - "5000:5000"
     links:
       - db:db
+    environment:
+      SQLALCHEMY_DATABASE_URI: mysql+pymysql://bryggeriklubben:BryggeriKlubben@db/inventory
+  api_post:
+    build: ./api
+    networks:
+      - back
+    links:
+      - db:db
+    environment:
+      SQLALCHEMY_DATABASE_URI: mysql+pymysql://bryggeriklubben:BryggeriKlubben@db/inventory
+
+  api_put:
+    build: ./api
+    networks:
+      - back
+    links:
+      - db:db
+    environment:
+      SQLALCHEMY_DATABASE_URI: mysql+pymysql://bryggeriklubben:BryggeriKlubben@db/inventory
+
+  api_delete:
+    build: ./api
+    networks:
+      - back
+    links:
+      - db:db
+    environment:
+      SQLALCHEMY_DATABASE_URI: mysql+pymysql://bryggeriklubben:BryggeriKlubben@db/inventory
+
 networks:
   back:
 
