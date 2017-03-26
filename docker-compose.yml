@@ -4,7 +4,6 @@ nginx:
     - "80:80"
   links:
    - api:api
-   - db:db
 db:
   build: ./db
   environment:

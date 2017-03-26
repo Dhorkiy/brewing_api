@@ -71,6 +71,25 @@ def inventory():
         return 'Added.', 204
 
 
+@app.route('/inventory/<string:inventory_name>', methods=['GET'])
+def get_inventory_by_name(inventory_name):
+    if request.method == 'GET':
+        results = Inventory.query.filter_by(name=inventory_name)
+        json_result = []
+        for result in results:
+            data = {
+                'id': result.id,
+                'name': result.name,
+                'description': result.description,
+                'alpha': result.alpha,
+                'amount': result.amount,
+                'date': result.date,
+                'type': result.type
+            }
+            json_result.append(data)
+
+        return jsonify(items=json_result)
+
 @app.route('/inventory/<int:inventory_id>/', methods=['PUT', 'GET', 'DELETE'])
 def update_inventory(inventory_id):
     if request.method == 'GET':
