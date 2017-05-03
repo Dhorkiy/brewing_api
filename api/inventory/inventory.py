@@ -123,6 +123,7 @@ def update_inventory(inventory_id):
         return '', 204
 
 
+#TODO: PUT method
 @app.route('/')
 def hello_world():
     return 'Welcome to Bryggeriklubbens Inventory API'
